@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "33380409521",
+    "project_id": "lieber-chat",
+    "storage_bucket": "lieber-chat.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:33380409521:android:e896c950c1f6249e83c290",
+        "android_client_info": {
+          "package_name": "com.lieber.chat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqHgs9-TgBC6jrsSXhzScvwxjmw36jhSc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
