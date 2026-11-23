@@ -23,9 +23,15 @@ jobs:
         with:
           gradle-version: '8.9'
 
+      - name: Chave de assinatura fixa
+        run: |
+          mkdir -p ~/.android
+          echo "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" | base64 -d > ~/.android/debug.keystore
+
       - name: Criar o projeto Android
         run: |
           mkdir -p app/src/main/java/com/lieber/chat
+          cp google-services.json app/google-services.json
 
           cat > settings.gradle <<'EOF'
           pluginManagement {
@@ -41,32 +47,40 @@ jobs:
           cat > build.gradle <<'EOF'
           plugins {
               id 'com.android.application' version '8.5.2' apply false
+              id 'com.google.gms.google-services' version '4.4.2' apply false
           }
           EOF
 
           cat > gradle.properties <<'EOF'
           org.gradle.jvmargs=-Xmx2g
+          android.useAndroidX=true
           android.nonTransitiveRClass=true
           EOF
 
           cat > app/build.gradle <<'EOF'
           plugins {
               id 'com.android.application'
+              id 'com.google.gms.google-services'
           }
           android {
               namespace 'com.lieber.chat'
               compileSdk 34
               defaultConfig {
                   applicationId 'com.lieber.chat'
-                  minSdk 24
+                  minSdk 26
                   targetSdk 34
-                  versionCode 1
-                  versionName '1.0'
+                  versionCode 2
+                  versionName '2.0'
               }
               compileOptions {
                   sourceCompatibility JavaVersion.VERSION_17
                   targetCompatibility JavaVersion.VERSION_17
               }
+          }
+          dependencies {
+              implementation platform('com.google.firebase:firebase-bom:33.1.2')
+              implementation 'com.google.firebase:firebase-auth'
+              implementation 'com.google.firebase:firebase-firestore'
           }
           EOF
 
@@ -74,12 +88,17 @@ jobs:
           <?xml version="1.0" encoding="utf-8"?>
           <manifest xmlns:android="http://schemas.android.com/apk/res/android">
               <uses-permission android:name="android.permission.INTERNET" />
+              <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+              <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+              <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+              <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
               <application
                   android:label="lieberchat"
                   android:theme="@android:style/Theme.DeviceDefault.NoActionBar">
                   <activity
                       android:name=".MainActivity"
                       android:exported="true"
+                      android:launchMode="singleTask"
                       android:configChanges="orientation|screenSize|keyboardHidden"
                       android:windowSoftInputMode="adjustResize">
                       <intent-filter>
@@ -87,28 +106,93 @@ jobs:
                           <category android:name="android.intent.category.LAUNCHER" />
                       </intent-filter>
                   </activity>
+                  <service
+                      android:name=".NotificacaoService"
+                      android:exported="false"
+                      android:foregroundServiceType="specialUse">
+                      <property
+                          android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                          android:value="chat_listener" />
+                  </service>
+                  <receiver android:name=".BootReceiver" android:exported="true">
+                      <intent-filter>
+                          <action android:name="android.intent.action.BOOT_COMPLETED" />
+                      </intent-filter>
+                  </receiver>
               </application>
           </manifest>
+          EOF
+
+          cat > app/src/main/java/com/lieber/chat/BootReceiver.java <<'EOF'
+          package com.lieber.chat;
+
+          import android.content.BroadcastReceiver;
+          import android.content.Context;
+          import android.content.Intent;
+
+          public class BootReceiver extends BroadcastReceiver {
+              @Override
+              public void onReceive(Context c, Intent i) {
+                  if (c.getSharedPreferences("lieber", Context.MODE_PRIVATE).getString("email", null) != null) {
+                      c.startForegroundService(new Intent(c, NotificacaoService.class));
+                  }
+              }
+          }
           EOF
 
           cat > app/src/main/java/com/lieber/chat/MainActivity.java <<'EOF'
           package com.lieber.chat;
 
+          import android.Manifest;
           import android.app.Activity;
+          import android.app.NotificationManager;
           import android.content.Intent;
           import android.graphics.Color;
           import android.net.Uri;
+          import android.os.Build;
           import android.os.Bundle;
+          import android.webkit.JavascriptInterface;
           import android.webkit.ValueCallback;
           import android.webkit.WebChromeClient;
+          import android.webkit.WebResourceRequest;
           import android.webkit.WebSettings;
           import android.webkit.WebView;
           import android.webkit.WebViewClient;
 
           public class MainActivity extends Activity {
+              static volatile boolean emPrimeiroPlano = false;
               private static final int PICK = 1;
+              private static final String JS =
+                      "(function(){if(window.__ln)return;window.__ln=1;"
+                      + "var b=document.getElementById('btnAuth'),s=document.getElementById('sair');"
+                      + "if(b)b.addEventListener('click',function(){"
+                      + "var n=document.getElementById('nick').value.trim().toLowerCase(),p=document.getElementById('senha').value;"
+                      + "if(n&&p)LieberNativo.salvarLogin(n+'@lieber-chat.app',p);},true);"
+                      + "if(s)s.addEventListener('click',function(){LieberNativo.sair();},true);})();";
+
               private WebView web;
               private ValueCallback<Uri[]> filePathCallback;
+
+              class Ponte {
+                  @JavascriptInterface
+                  public void salvarLogin(String email, String senha) {
+                      getSharedPreferences("lieber", MODE_PRIVATE).edit()
+                              .putString("email", email).putString("senha", senha).apply();
+                      iniciarServico("RECONECTAR");
+                  }
+
+                  @JavascriptInterface
+                  public void sair() {
+                      getSharedPreferences("lieber", MODE_PRIVATE).edit().clear().apply();
+                      stopService(new Intent(MainActivity.this, NotificacaoService.class));
+                  }
+              }
+
+              void iniciarServico(String acao) {
+                  Intent i = new Intent(this, NotificacaoService.class);
+                  if (acao != null) i.setAction(acao);
+                  startForegroundService(i);
+              }
 
               @Override
               protected void onCreate(Bundle b) {
@@ -124,7 +208,21 @@ jobs:
                   s.setDomStorageEnabled(true);
                   s.setMediaPlaybackRequiresUserGesture(false);
 
-                  web.setWebViewClient(new WebViewClient());
+                  web.addJavascriptInterface(new Ponte(), "LieberNativo");
+                  web.setWebViewClient(new WebViewClient() {
+                      @Override
+                      public boolean shouldOverrideUrlLoading(WebView v, WebResourceRequest r) {
+                          Uri u = r.getUrl();
+                          if ("lieberchat.github.io".equals(u.getHost())) return false;
+                          startActivity(new Intent(Intent.ACTION_VIEW, u));
+                          return true;
+                      }
+
+                      @Override
+                      public void onPageFinished(WebView v, String url) {
+                          v.evaluateJavascript(JS, null);
+                      }
+                  });
                   web.setWebChromeClient(new WebChromeClient() {
                       @Override
                       public boolean onShowFileChooser(WebView v, ValueCallback<Uri[]> cb, FileChooserParams p) {
@@ -139,7 +237,27 @@ jobs:
                           return true;
                       }
                   });
+
+                  if (Build.VERSION.SDK_INT >= 33) {
+                      requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 2);
+                  }
+                  if (getSharedPreferences("lieber", MODE_PRIVATE).getString("email", null) != null) {
+                      iniciarServico(null);
+                  }
                   web.loadUrl("https://lieberchat.github.io");
+              }
+
+              @Override
+              protected void onResume() {
+                  super.onResume();
+                  emPrimeiroPlano = true;
+                  getSystemService(NotificationManager.class).cancelAll();
+              }
+
+              @Override
+              protected void onPause() {
+                  super.onPause();
+                  emPrimeiroPlano = false;
               }
 
               @Override
@@ -159,6 +277,200 @@ jobs:
                   web.evaluateJavascript(js, v -> {
                       if (!"1".equals(v)) moveTaskToBack(true);
                   });
+              }
+          }
+          EOF
+
+          cat > app/src/main/java/com/lieber/chat/NotificacaoService.java <<'EOF'
+          package com.lieber.chat;
+
+          import android.app.Notification;
+          import android.app.NotificationChannel;
+          import android.app.NotificationManager;
+          import android.app.PendingIntent;
+          import android.app.Service;
+          import android.content.Intent;
+          import android.content.SharedPreferences;
+          import android.content.pm.ServiceInfo;
+          import android.os.Build;
+          import android.os.Handler;
+          import android.os.IBinder;
+          import android.os.Looper;
+          import android.util.Log;
+
+          import com.google.firebase.auth.FirebaseAuth;
+          import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+          import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+          import com.google.firebase.firestore.DocumentChange;
+          import com.google.firebase.firestore.DocumentSnapshot;
+          import com.google.firebase.firestore.FirebaseFirestore;
+          import com.google.firebase.firestore.ListenerRegistration;
+          import com.google.firebase.firestore.Query;
+
+          import java.util.HashMap;
+          import java.util.HashSet;
+          import java.util.Iterator;
+          import java.util.Map;
+          import java.util.Set;
+
+          public class NotificacaoService extends Service {
+              private static final String CANAL_SERVICO = "servico";
+              private static final String CANAL_MSG = "mensagens";
+              private final Map<String, ListenerRegistration> vigias = new HashMap<>();
+              private final Handler handler = new Handler(Looper.getMainLooper());
+              private ListenerRegistration listaReg;
+              private String meuUid;
+              private boolean conectando = false;
+
+              @Override
+              public IBinder onBind(Intent i) {
+                  return null;
+              }
+
+              @Override
+              public int onStartCommand(Intent intent, int flags, int startId) {
+                  criarCanais();
+                  PendingIntent pi = PendingIntent.getActivity(this, 0,
+                          new Intent(this, MainActivity.class), PendingIntent.FLAG_IMMUTABLE);
+                  Notification n = new Notification.Builder(this, CANAL_SERVICO)
+                          .setSmallIcon(android.R.drawable.stat_notify_chat)
+                          .setContentTitle("lieberchat conectado")
+                          .setContentText("Recebendo suas mensagens")
+                          .setContentIntent(pi)
+                          .setOngoing(true)
+                          .build();
+                  if (Build.VERSION.SDK_INT >= 34) {
+                      startForeground(1, n, ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE);
+                  } else {
+                      startForeground(1, n);
+                  }
+                  if (intent != null && "RECONECTAR".equals(intent.getAction())) {
+                      parar();
+                      FirebaseAuth.getInstance().signOut();
+                  }
+                  conectar();
+                  return START_STICKY;
+              }
+
+              private void criarCanais() {
+                  NotificationManager nm = getSystemService(NotificationManager.class);
+                  nm.createNotificationChannel(new NotificationChannel(CANAL_SERVICO, "Conex\u00e3o", NotificationManager.IMPORTANCE_LOW));
+                  nm.createNotificationChannel(new NotificationChannel(CANAL_MSG, "Mensagens", NotificationManager.IMPORTANCE_HIGH));
+              }
+
+              private void parar() {
+                  handler.removeCallbacksAndMessages(null);
+                  if (listaReg != null) { listaReg.remove(); listaReg = null; }
+                  for (ListenerRegistration r : vigias.values()) r.remove();
+                  vigias.clear();
+                  meuUid = null;
+                  conectando = false;
+              }
+
+              private void conectar() {
+                  if (meuUid != null || conectando) return;
+                  final SharedPreferences p = getSharedPreferences("lieber", MODE_PRIVATE);
+                  String email = p.getString("email", null);
+                  String senha = p.getString("senha", null);
+                  if (email == null || senha == null) { stopSelf(); return; }
+                  FirebaseAuth auth = FirebaseAuth.getInstance();
+                  if (auth.getCurrentUser() != null) {
+                      meuUid = auth.getCurrentUser().getUid();
+                      ouvirConversas();
+                      return;
+                  }
+                  conectando = true;
+                  auth.signInWithEmailAndPassword(email, senha)
+                          .addOnSuccessListener(r -> {
+                              conectando = false;
+                              meuUid = r.getUser().getUid();
+                              ouvirConversas();
+                          })
+                          .addOnFailureListener(e -> {
+                              conectando = false;
+                              Log.e("lieberchat", "login falhou", e);
+                              if (e instanceof FirebaseAuthInvalidCredentialsException
+                                      || e instanceof FirebaseAuthInvalidUserException) {
+                                  p.edit().clear().apply();
+                                  stopSelf();
+                              } else {
+                                  handler.postDelayed(this::conectar, 30000);
+                              }
+                          });
+              }
+
+              private void ouvirConversas() {
+                  final FirebaseFirestore db = FirebaseFirestore.getInstance();
+                  listaReg = db.collection("chats").whereArrayContains("members", meuUid)
+                          .addSnapshotListener((snap, e) -> {
+                              if (snap == null) {
+                                  Log.e("lieberchat", "lista de conversas", e);
+                                  return;
+                              }
+                              Set<String> ids = new HashSet<>();
+                              for (DocumentSnapshot d : snap.getDocuments()) {
+                                  ids.add(d.getId());
+                                  if (!vigias.containsKey(d.getId())) vigiar(db, d.getId());
+                              }
+                              Iterator<Map.Entry<String, ListenerRegistration>> it = vigias.entrySet().iterator();
+                              while (it.hasNext()) {
+                                  Map.Entry<String, ListenerRegistration> en = it.next();
+                                  if (!ids.contains(en.getKey())) {
+                                      en.getValue().remove();
+                                      it.remove();
+                                  }
+                              }
+                          });
+              }
+
+              private void vigiar(FirebaseFirestore db, String chatId) {
+                  final boolean[] primeira = {true};
+                  ListenerRegistration r = db.collection("chats").document(chatId).collection("messages")
+                          .orderBy("createdAt", Query.Direction.DESCENDING).limit(1)
+                          .addSnapshotListener((snap, e) -> {
+                              if (snap == null) {
+                                  Log.e("lieberchat", "mensagens", e);
+                                  return;
+                              }
+                              if (primeira[0]) { primeira[0] = false; return; }
+                              for (DocumentChange c : snap.getDocumentChanges()) {
+                                  if (c.getType() != DocumentChange.Type.ADDED) continue;
+                                  DocumentSnapshot d = c.getDocument();
+                                  if (d.getMetadata().hasPendingWrites()) continue;
+                                  if (meuUid != null && meuUid.equals(d.getString("uid"))) continue;
+                                  if (MainActivity.emPrimeiroPlano) continue;
+                                  avisar(chatId, d.getString("name"), resumo(d));
+                              }
+                          });
+                  vigias.put(chatId, r);
+              }
+
+              private String resumo(DocumentSnapshot d) {
+                  String t = d.getString("text");
+                  if (t != null && !t.isEmpty()) return t;
+                  if (d.getString("img") != null) return "Enviou uma foto";
+                  if (d.getString("video") != null) return "Enviou um v\u00eddeo";
+                  return "Nova mensagem";
+              }
+
+              private void avisar(String chatId, String nome, String texto) {
+                  Intent abrir = new Intent(this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                  PendingIntent pi = PendingIntent.getActivity(this, chatId.hashCode(), abrir,
+                          PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+                  Notification n = new Notification.Builder(this, CANAL_MSG)
+                          .setSmallIcon(android.R.drawable.stat_notify_chat)
+                          .setContentTitle(nome == null ? "lieberchat" : nome)
+                          .setContentText(texto)
+                          .setAutoCancel(true)
+                          .setContentIntent(pi)
+                          .build();
+                  getSystemService(NotificationManager.class).notify(chatId.hashCode(), n);
+              }
+
+              @Override
+              public void onDestroy() {
+                  parar();
+                  super.onDestroy();
               }
           }
           EOF
