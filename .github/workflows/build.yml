@@ -38,7 +38,12 @@ jobs:
               repositories { google(); mavenCentral(); gradlePluginPortal() }
           }
           dependencyResolutionManagement {
-              repositories { google(); mavenCentral() }
+              repositories {
+                  google()
+                  mavenCentral()
+                  maven { url "https://github.com/jitsi/jitsi-maven-repository/raw/master/releases" }
+                  maven { url "https://jitpack.io" }
+              }
           }
           rootProject.name = "lieberchat"
           include ':app'
@@ -46,13 +51,13 @@ jobs:
 
           cat > build.gradle <<'EOF'
           plugins {
-              id 'com.android.application' version '8.5.2' apply false
+              id 'com.android.application' version '8.7.3' apply false
               id 'com.google.gms.google-services' version '4.4.2' apply false
           }
           EOF
 
           cat > gradle.properties <<'EOF'
-          org.gradle.jvmargs=-Xmx2g
+          org.gradle.jvmargs=-Xmx4g
           android.useAndroidX=true
           android.nonTransitiveRClass=true
           EOF
@@ -64,13 +69,19 @@ jobs:
           }
           android {
               namespace 'com.lieber.chat'
-              compileSdk 34
+              compileSdk 35
               defaultConfig {
                   applicationId 'com.lieber.chat'
                   minSdk 26
                   targetSdk 34
-                  versionCode 2
-                  versionName '2.0'
+                  versionCode 4
+                  versionName '4.0'
+                  ndk { abiFilters 'arm64-v8a' }
+              }
+              packaging {
+                  jniLibs {
+                      pickFirsts += ['**/libc++_shared.so', '**/libfbjni.so']
+                  }
               }
               compileOptions {
                   sourceCompatibility JavaVersion.VERSION_17
@@ -81,18 +92,22 @@ jobs:
               implementation platform('com.google.firebase:firebase-bom:33.1.2')
               implementation 'com.google.firebase:firebase-auth'
               implementation 'com.google.firebase:firebase-firestore'
+              implementation('org.jitsi.react:jitsi-meet-sdk:+') { transitive = true }
           }
           EOF
 
           cat > app/src/main/AndroidManifest.xml <<'EOF'
           <?xml version="1.0" encoding="utf-8"?>
-          <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+          <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools">
               <uses-permission android:name="android.permission.INTERNET" />
+              <uses-permission android:name="android.permission.CAMERA" tools:node="remove" />
               <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
               <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
               <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
               <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
               <application
+                  @@ICON@@
                   android:label="lieberchat"
                   android:theme="@android:style/Theme.DeviceDefault.NoActionBar">
                   <activity
@@ -123,6 +138,20 @@ jobs:
           </manifest>
           EOF
 
+          ICON=""
+          IMG=$(ls *.png *.jpg *.jpeg 2>/dev/null | head -1)
+          if [ -n "$IMG" ]; then
+            command -v convert >/dev/null || sudo apt-get install -y imagemagick
+            for par in mdpi:48 hdpi:72 xhdpi:96 xxhdpi:144 xxxhdpi:192; do
+              d=${par%%:*}; s=${par##*:}
+              mkdir -p app/src/main/res/mipmap-$d
+              convert "$IMG" -resize ${s}x${s}^ -gravity center -extent ${s}x${s} app/src/main/res/mipmap-$d/ic_launcher.png
+            done
+            ICON='android:icon="@mipmap/ic_launcher"'
+            echo "Icone gerado a partir de $IMG"
+          fi
+          sed -i "s|@@ICON@@|$ICON|" app/src/main/AndroidManifest.xml
+
           cat > app/src/main/java/com/lieber/chat/BootReceiver.java <<'EOF'
           package com.lieber.chat;
 
@@ -151,6 +180,7 @@ jobs:
           import android.net.Uri;
           import android.os.Build;
           import android.os.Bundle;
+          import android.util.Log;
           import android.webkit.JavascriptInterface;
           import android.webkit.ValueCallback;
           import android.webkit.WebChromeClient;
@@ -158,6 +188,12 @@ jobs:
           import android.webkit.WebSettings;
           import android.webkit.WebView;
           import android.webkit.WebViewClient;
+
+          import org.jitsi.meet.sdk.JitsiMeetActivity;
+          import org.jitsi.meet.sdk.JitsiMeetConferenceOptions;
+          import org.jitsi.meet.sdk.JitsiMeetUserInfo;
+
+          import java.net.URL;
 
           public class MainActivity extends Activity {
               static volatile boolean emPrimeiroPlano = false;
@@ -188,6 +224,32 @@ jobs:
                   }
               }
 
+              void abrirChamada(Uri u) {
+                  try {
+                      String email = getSharedPreferences("lieber", MODE_PRIVATE).getString("email", "");
+                      String nick = (email != null && email.contains("@")) ? email.substring(0, email.indexOf('@')) : "";
+                      Bundle info = new Bundle();
+                      info.putString("displayName", nick);
+                      JitsiMeetConferenceOptions o = new JitsiMeetConferenceOptions.Builder()
+                              .setServerURL(new URL("https://" + u.getHost()))
+                              .setRoom(u.getLastPathSegment())
+                              .setUserInfo(new JitsiMeetUserInfo(info))
+                              .setAudioMuted(false)
+                              .setVideoMuted(true)
+                              .setWelcomePageEnabled(false)
+                              .setFeatureFlag("prejoinpage.enabled", false)
+                              .setFeatureFlag("call-integration.enabled", false)
+                              .setFeatureFlag("calendar.enabled", false)
+                              .setFeatureFlag("invite.enabled", false)
+                              .setFeatureFlag("live-streaming.enabled", false)
+                              .setFeatureFlag("recording.enabled", false)
+                              .build();
+                      JitsiMeetActivity.launch(this, o);
+                  } catch (Exception e) {
+                      Log.e("lieberchat", "chamada", e);
+                  }
+              }
+
               void iniciarServico(String acao) {
                   Intent i = new Intent(this, NotificacaoService.class);
                   if (acao != null) i.setAction(acao);
@@ -214,7 +276,21 @@ jobs:
                       public boolean shouldOverrideUrlLoading(WebView v, WebResourceRequest r) {
                           Uri u = r.getUrl();
                           if ("lieberchat.github.io".equals(u.getHost())) return false;
-                          startActivity(new Intent(Intent.ACTION_VIEW, u));
+                          if ("org.jitsi.meet".equals(u.getScheme())) {
+                              abrirChamada(u);
+                              return true;
+                          }
+                          try {
+                              startActivity(new Intent(Intent.ACTION_VIEW, u));
+                          } catch (Exception e) {
+                              if ("org.jitsi.meet".equals(u.getScheme())) {
+                                  try {
+                                      startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=org.jitsi.meet")));
+                                  } catch (Exception e2) {
+                                      startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=org.jitsi.meet")));
+                                  }
+                              }
+                          }
                           return true;
                       }
 
@@ -447,6 +523,7 @@ jobs:
 
               private String resumo(DocumentSnapshot d) {
                   String t = d.getString("text");
+                  if (t != null && t.contains("meet.ffmuc.net/")) return "Chamando voc\u00ea para uma chamada";
                   if (t != null && !t.isEmpty()) return t;
                   if (d.getString("img") != null) return "Enviou uma foto";
                   if (d.getString("video") != null) return "Enviou um v\u00eddeo";
