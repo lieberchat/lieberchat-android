@@ -108,6 +108,7 @@ jobs:
               <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
               <application
                   @@ICON@@
+                  tools:replace="@@REPLACE@@"
                   android:label="lieberchat"
                   android:theme="@android:style/Theme.DeviceDefault.NoActionBar">
                   <activity
@@ -139,6 +140,7 @@ jobs:
           EOF
 
           ICON=""
+          REPL="android:label,android:theme"
           IMG=$(ls *.png *.jpg *.jpeg 2>/dev/null | head -1)
           if [ -n "$IMG" ]; then
             command -v convert >/dev/null || sudo apt-get install -y imagemagick
@@ -148,9 +150,10 @@ jobs:
               convert "$IMG" -resize ${s}x${s}^ -gravity center -extent ${s}x${s} app/src/main/res/mipmap-$d/ic_launcher.png
             done
             ICON='android:icon="@mipmap/ic_launcher"'
+            REPL="android:label,android:theme,android:icon"
             echo "Icone gerado a partir de $IMG"
           fi
-          sed -i "s|@@ICON@@|$ICON|" app/src/main/AndroidManifest.xml
+          sed -i "s|@@ICON@@|$ICON|;s|@@REPLACE@@|$REPL|" app/src/main/AndroidManifest.xml
 
           cat > app/src/main/java/com/lieber/chat/BootReceiver.java <<'EOF'
           package com.lieber.chat;
